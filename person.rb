@@ -17,6 +17,10 @@ class Person
     @age >= 18
   end
 
+  def correct_name
+    @name
+  end
+
   private
 
   def generate_id
