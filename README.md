@@ -108,6 +108,12 @@ You can deploy this project using:
 - Twitter: [@bran-baye](https://twitter.com/bran_baye)
 - LinkedIn: [Berhanu Baye](https://www.linkedin.com/in/bran-baye)
 
+ 👤 **Ashna Ali**
+
+- GitHub: [@githubhandle](https://github.com/Ashnaali3255)
+- Twitter: [@twitterhandle](https://twitter.com/Ashna_Ali1)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/ashna-ali-342151255/) 
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- FUTURE FEATURES -->
