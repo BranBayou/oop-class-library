@@ -29,7 +29,7 @@ class Person < Nameable
   def add_rental(date, person)
     Rental.new(date, self, person)
   end
-  
+
   private
 
   def generate_id
