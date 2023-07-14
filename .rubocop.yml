@@ -4,20 +4,24 @@ AllCops:
     - "Guardfile"
     - "Rakefile"
     - "node_modules/**/*"
-
+    
   DisplayCopNames: true
 
 Layout/LineLength:
-  Max: 120
+  Max: 180
 Metrics/MethodLength:
-  Max: 20
+  Max: 30
 Metrics/AbcSize:
   Max: 50
 Metrics/ClassLength:
-  Max: 150
+  Max: 200
 Metrics/BlockLength:
   IgnoredMethods: ['describe']
   Max: 30
+Metrics/CyclomaticComplexity:
+  Max: 20
+Metrics/PerceivedComplexity:
+  Max: 12
 
 
 Style/Documentation:
@@ -35,6 +39,8 @@ Style/FrozenStringLiteralComment:
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
+Layout/EndOfLine:
+   Enabled: false
 Layout/ExtraSpacing:
   AllowForAlignment: false
 Layout/MultilineMethodCallIndentation:

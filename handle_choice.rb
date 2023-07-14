@@ -14,6 +14,7 @@ def handle_choice(choice, app)
     app.rental_list
 
   when 7
+    app.save_data
     puts ':) Thank you for using this app!'
     return false
 

@@ -1,3 +1,4 @@
+require 'json'
 require './person'
 require './student'
 require './teacher'
@@ -11,13 +12,110 @@ class App
     @people = []
   end
 
+  def run
+    files
+    read_data
+    read_rentals
+  end
+
+  def files
+    @books_data = File.read('./data/book.json')
+    @people_data = File.read('./data/people.json')
+    @rentals_data = File.read('./data/rentals.json')
+  end
+
+  def read_data
+    unless @books_data.empty?
+      books_array = JSON.parse(@books_data)
+      books_array.each do |book|
+        @books.push(Book.new(book['Title'], book['Author']))
+      end
+    end
+
+    return if @people_data.empty?
+
+    people_array = JSON.parse(@people_data)
+    people_array.each do |person|
+      if person['type'] == 'Student'
+        @people.push(Student.new(person['age'], nil, parent_permission: person['parent_permission'],
+                                                     name: person['name']))
+      else
+        @people.push(Teacher.new(person['age'], person['specialization'],
+                                 parent_permission: person['parent_permission'], name: person['name']))
+      end
+    end
+  end
+
+  def read_rentals
+    if @rentals_data.empty? || @people_data.empty? || @books_data.empty?
+      puts 'Rentals are empty'
+    else
+      rentals_array = JSON.parse(@rentals_data)
+      rentals_array.each do |rental|
+        selecting_book = @books.find { |book| book.title == rental['Book'] }
+        selecting_people = @people.find { |person| person.name == rental['Person'] }
+
+        if selecting_book.nil?
+          puts "Book not found: #{rental['Book']}"
+          next
+        end
+
+        if selecting_people.nil?
+          puts "Person not found: #{rental['Person']}"
+          next
+        end
+
+        @rentals.push(Rental.new(rental['Date'], selecting_book, selecting_people))
+      end
+    end
+  end
+
+  def save_data
+    book_json = []
+    people_json = []
+    rentals_json = []
+
+    @books.each do |book|
+      book_json.push({ Title: book.title, Author: book.author })
+    end
+
+    @people.each do |person|
+      if person.type == 'Student'
+        people_json.push({ type: person.type, name: person.name, age: person.age,
+                           parent_permission: person.parent_permission })
+      else
+        people_json.push({ type: person.type, name: person.name, age: person.age,
+                           parent_permission: person.parent_permission, specialization: person.specialization })
+      end
+    end
+
+    @rentals.each do |rental|
+      rentals_json.push({ 'Date' => rental.date, 'person_name' => rental.person.name,
+                          'book_titles' => rental.book.title })
+    end
+
+    File.write('./data/book.json', JSON.generate(book_json))
+    File.write('./data/people.json', JSON.generate(people_json))
+    File.write('./data/rentals.json', JSON.generate(rentals_json))
+  end
+
   def book_list
-    @books.each { |book| puts "Title: #{book.title}, Author: #{book.author}" }
+    if @books.empty?
+      puts 'Sorry, there is no book in the Collection'
+    else
+      @books.each_with_index do |book, index|
+        puts "#{index}- Title: '#{book.title}', Author: #{book.author}"
+      end
+    end
   end
 
   def people_list
-    @people.each do |people|
-      puts "[#{people.class.name}] Name: #{people.name}, ID: #{people.id} Age: #{people.age}"
+    if @people.empty?
+      puts 'Sorry, there is no person in the Database'
+    else
+      @people.each_with_index do |person, index|
+        puts "#{index} [#{person.type}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      end
     end
   end
 
@@ -86,9 +184,8 @@ class App
     puts 'Date:'
     date = gets.chomp
 
-    rental = Rental.new(date, @books[book_index], @people[person_index])
+    @rentals << Rental.new(date, @books[book_index], @people[person_index])
     puts 'Rental created successfully.'
-    rental
   end
 
   def rental_list
