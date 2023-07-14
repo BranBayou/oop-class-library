@@ -1,10 +1,11 @@
-require_relative 'book' # Assuming the file is in the same directory
-require_relative 'rental'
+require_relative '../book'
+require_relative '../rental'
+require 'date'
 
 describe Book do
   let(:book) { Book.new("The Great Gatsby", "F. Scott Fitzgerald") }
   let(:date) { Date.new(2023, 7, 14) }
-  let(:person) { double("person") }
+  let(:person) { double("person", to_s: "Person Object", rentals: []) }
 
   describe "#initialize" do
     it "sets the title and author" do
@@ -22,7 +23,7 @@ describe Book do
       rental = book.add_rental(date, person)
       expect(rental).to be_a(Rental)
       expect(rental.date).to eq(date)
-      expect(rental.person).to eq(person)
+      expect(rental.person).to eq(person.to_s)
       expect(rental.book).to eq(book)
       expect(book.rentals).to include(rental)
     end

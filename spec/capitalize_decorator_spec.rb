@@ -1,5 +1,5 @@
-require_relative 'capitalize_decorator' # Assuming the file is in the same directory
-require_relative 'base_decorator'
+require_relative '../capitalize_decorator' 
+require_relative '../base_decorator'
 
 describe CapitalizeDecorator do
   let(:nameable) { double("nameable") }

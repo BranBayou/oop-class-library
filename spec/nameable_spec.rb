@@ -1,12 +1,12 @@
-require_relative './nameable'
+require_relative '../nameable'
 
-class Subclass < Nameable
-  def correct_name
-    raise NotImplementedError, 'Implement correct_name method'
+describe Nameable do
+  class Subclass < Nameable
+    def correct_name
+      raise NotImplementedError, 'Implement correct_name method'
+    end
   end
-end
 
-describe Subclass do
   let(:subclass) { Subclass.new }
 
   describe "#correct_name" do

@@ -1,4 +1,4 @@
-require_relative 'base_decorator' # Assuming the file is in the same directory
+require_relative '../base_decorator'
 
 describe Decorator do
   let(:nameable) { double("nameable") }
