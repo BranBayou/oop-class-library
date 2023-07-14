@@ -1,4 +1,4 @@
-require './nameable'
+require_relative File.expand_path('../nameable')
 
 class Decorator < Nameable
   attr_accessor :nameable

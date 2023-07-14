@@ -1,4 +1,4 @@
-class Nameable
+class Subclass < Nameable
   def correct_name
     raise NotImplementedError, 'Implement correct_name method'
   end

@@ -1,0 +1,24 @@
+name: Tests
+
+on: pull_request
+
+jobs:
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.x
+
+      - name: Setup RSpec
+        run: |
+          [ -f Gemfile ] && bundle
+          gem install --no-document rspec -v '>=3.0, < 4.0'
+
+      - name: Run RSpec tests
+        run: rspec --force-color --format documentation

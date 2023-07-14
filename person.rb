@@ -1,5 +1,5 @@
-require './nameable'
-require './rental'
+require_relative './nameable'
+require_relative './rental'
 
 class Person < Nameable
   attr_reader :id
