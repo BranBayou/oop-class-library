@@ -10,9 +10,6 @@ class App
     @rentals = []
     @books = []
     @people = []
-    @people_data = nil
-    @books_data = nil
-    @rentals_data = nil
   end
 
   def run
@@ -93,7 +90,8 @@ class App
     end
 
     @rentals.each do |rental|
-      rentals_json.push({ Date: rental.date, Person: rental.person.name, Book: rental.book.title })
+      rentals_json.push({ 'Date' => rental.date, 'person_name' => rental.person.name,
+                          'book_titles' => rental.book.title })
     end
 
     File.write('./data/book.json', JSON.generate(book_json))
@@ -186,9 +184,8 @@ class App
     puts 'Date:'
     date = gets.chomp
 
-    rental = Rental.new(date, @books[book_index], @people[person_index])
+    @rentals << Rental.new(date, @books[book_index], @people[person_index])
     puts 'Rental created successfully.'
-    rental
   end
 
   def rental_list
