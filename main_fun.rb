@@ -1,5 +1,6 @@
 def main
   app = App.new
+  app.run
   puts 'Welcome to OOP School Library App!'
   proceed = true
 
