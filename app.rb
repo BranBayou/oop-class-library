@@ -19,7 +19,7 @@ class App
     files
     read_data
     read_rentals
-  end  
+  end
 
   def files
     @books_data = File.read('./data/book.json')
@@ -34,19 +34,20 @@ class App
         @books.push(Book.new(book['Title'], book['Author']))
       end
     end
-  
+
     return if @people_data.empty?
-  
+
     people_array = JSON.parse(@people_data)
     people_array.each do |person|
       if person['type'] == 'Student'
-        @people.push(Student.new(person['age'], person['name']))
+        @people.push(Student.new(person['age'], nil, parent_permission: person['parent_permission'],
+                                                     name: person['name']))
       else
-        @people.push(Teacher.new(person['age'], person['specialization'], person['name']))
+        @people.push(Teacher.new(person['age'], person['specialization'],
+                                 parent_permission: person['parent_permission'], name: person['name']))
       end
     end
   end
-  
 
   def read_rentals
     if @rentals_data.empty? || @people_data.empty? || @books_data.empty?
@@ -54,24 +55,23 @@ class App
     else
       rentals_array = JSON.parse(@rentals_data)
       rentals_array.each do |rental|
-        selecting_book = @books.select { |book| book.title == rental['Book'] }
-        selecting_people = @people.select { |person| person.name == rental['Person'] }
-  
-        if selecting_book.empty?
+        selecting_book = @books.find { |book| book.title == rental['Book'] }
+        selecting_people = @people.find { |person| person.name == rental['Person'] }
+
+        if selecting_book.nil?
           puts "Book not found: #{rental['Book']}"
           next
         end
-  
-        if selecting_people.empty?
-          puts ""
+
+        if selecting_people.nil?
+          puts "Person not found: #{rental['Person']}"
           next
         end
-  
-        @rentals.push(Rental.new(rental['Date'], selecting_people[0], selecting_book[0]))
+
+        @rentals.push(Rental.new(rental['Date'], selecting_book, selecting_people))
       end
     end
   end
-  
 
   def save_data
     book_json = []
@@ -85,10 +85,10 @@ class App
     @people.each do |person|
       if person.type == 'Student'
         people_json.push({ type: person.type, name: person.name, age: person.age,
-                            parent_permission: person.parent_permission })
+                           parent_permission: person.parent_permission })
       else
         people_json.push({ type: person.type, name: person.name, age: person.age,
-                            parent_permission: person.parent_permission, specialization: person.specialization })
+                           parent_permission: person.parent_permission, specialization: person.specialization })
       end
     end
 
@@ -97,9 +97,7 @@ class App
     end
 
     File.write('./data/book.json', JSON.generate(book_json))
-
     File.write('./data/people.json', JSON.generate(people_json))
-
     File.write('./data/rentals.json', JSON.generate(rentals_json))
   end
 

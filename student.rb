@@ -1,7 +1,5 @@
 require './person'
 
-require './person'
-
 class Student < Person
   attr_reader :classroom
   attr_accessor :parent_permission
@@ -24,4 +22,3 @@ class Student < Person
     'Student'
   end
 end
-
