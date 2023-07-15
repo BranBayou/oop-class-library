@@ -6,17 +6,7 @@ RSpec.describe Student do
   let(:name) { 'John Doe' }
   let(:classroom) { double('Classroom', students: []) }
   let(:student) { Student.new(age, classroom, parent_permission: parent_permission, name: name) }
-  # describe '#initialize' do
-  #   it 'sets the age' do
-  #     expect(student.age).to eq(age)
-  #   end
-  #   it 'sets the parent_permission' do
-  #     expect(student.instance_variable_get(:@parent_permission)).to eq(parent_permission)
-  #   end
-  #   it 'sets the name' do
-  #     expect(student.name).to eq(name)
-  #   end
-  # end
+
   describe '#play_hooky' do
     it 'returns the correct message' do
       expect(student.play_hooky).to eq('¯\\(ツ)/¯')

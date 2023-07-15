@@ -19,27 +19,7 @@ RSpec.describe Person do
       expect(person.rentals).to be_empty
     end
   end
-  # describe '#can_use_services?' do
-  #   context 'when person is of age' do
-  #     let(:age) { 18 }
-  #     it 'returns true' do
-  #       expect(person.can_use_services?).to be_truthy
-  #     end
-  #   end
-  #   context 'when person is not of age but has parent permission' do
-  #     let(:age) { 16 }
-  #     it 'returns true' do
-  #       expect(person.can_use_services?).to be_truthy
-  #     end
-  #   end
-  #   context 'when person is not of age and does not have parent permission' do
-  #     let(:age) { 16 }
-  #     let(:parent_permission) { false }
-  #     it 'returns false' do
-  #       expect(person.can_use_services?).to be_falsy
-  #     end
-  #   end
-  # end
+
   describe '#of_age?' do
     context 'when person is of age' do
       let(:age) { 18 }
